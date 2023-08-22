@@ -2,11 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace api_online_shop.Configuracion
+namespace CB.Persistencia.Configuraciones
 {
-    public class testMap : IEntityTypeConfiguration<testModel>
+    public partial class testMap : IEntityTypeConfiguration<testModel>
     {
-        void IEntityTypeConfiguration<testModel>.Configure(EntityTypeBuilder<testModel> builder)
+        public void Configure(EntityTypeBuilder<testModel> builder)
         {
             builder.ToTable("test", "config");
             // key

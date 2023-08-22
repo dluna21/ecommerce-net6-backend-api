@@ -3,6 +3,7 @@ using api_online_shop.context;
 using Microsoft.AspNetCore.Mvc;
 using Release.Helper;
 using System.Linq;
+using api_online_shop.Service.Pruebas;
 
 namespace api_online_shop.Controllers
 {
@@ -10,64 +11,58 @@ namespace api_online_shop.Controllers
     [Route("[controller]/[action]")] 
     public class ValuesController : ControllerBase
     {
-        private readonly OnlineShopDataContext context;
-        public ValuesController(OnlineShopDataContext context)
-        {
-            this.context = context;
+ 
+        private readonly IPruebaService _pruebaService;
+        public ValuesController(IPruebaService pruebaService)
+        { 
+            this._pruebaService = pruebaService;
         }
+
         [HttpGet]
-        public StatusResponse getOnlineShop()
-        {
-            var response = new StatusResponse();
-
-            var concurso = this.context.test.ToList();
-
-            List<testModel> listModel = new List<testModel>();
-            foreach (var item in concurso)
+        public async Task<StatusResponse<IList<testModel>>> getOnlineShop1()
+        {  
+            var data = await this._pruebaService.get();
+        
+            return new StatusResponse<IList<testModel>>
             {
-                listModel.Add(item);
-            }
+                Success = data.Any(),
+                Data = data
+            };
+        }
 
-            //var concurso = this.context.onlineShop.ToList();
+        //[HttpGet]
+        //public StatusResponse getOnlineShop()
+        //{
+        //    var response = new StatusResponse();
 
-            //List<OnlineShop> listModel = new List<OnlineShop>();
-            //foreach (var item in concurso)
-            //{
-            //    listModel.Add(item);
-            //}
+        //    var concurso = this.context.test.ToList();
 
-            response.Success = true;
+        //    List<testModel> listModel = new List<testModel>();
+        //    foreach (var item in concurso)
+        //    {
+        //        listModel.Add(item);
+        //    }
+  
+        //    response.Success = true;
             
-            response.Data = listModel;
-            return response;
-        }
+        //    response.Data = listModel;
+        //    return response;
+        //}
 
-        [HttpGet]
-        // POST: OnlineShopController/Create 
-        public StatusResponse saveOnlineshop()
-        {
-            var response = new StatusResponse();
-            //OnlineShop online = new OnlineShop();
-            //online.Anio = 2023;
-            //online.Periodo = 1;
-            //online.Nombre = "Tay Loy";
-            //online.BasesDocumentacion = "-";
-            //online.BasesPublicacion = DateTime.Now;
-            //online.Registro = DateTime.Now;
-            //online.UsuarioRegistro = "44836469";
+        //[HttpGet]
+        //// POST: OnlineShopController/Create 
+        //public StatusResponse saveOnlineshop()
+        //{ 
+        //    testModel mod = new testModel();
+        //    mod.nombre1 = "prueba 2";
+        //    mod.fecha1 = DateTime.Now;
+        //    this.context.Add(mod);
+        //    this.context.SaveChanges();
 
-            //this.context.onlineShop.Add(online);
+        //    response.Success = true;
+        //    response.Data = "Registrado";
+        //    return response;
 
-            testModel mod = new testModel();
-            mod.nombre1 = "prueba 2";
-            mod.fecha1 = DateTime.Now;
-            this.context.Add(mod);
-            this.context.SaveChanges();
-
-            response.Success = true;
-            response.Data = "Registrado";
-            return response;
-
-        }
+        //}
     }
 }

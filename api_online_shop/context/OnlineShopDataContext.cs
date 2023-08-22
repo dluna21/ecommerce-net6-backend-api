@@ -17,6 +17,7 @@ namespace api_online_shop.context
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             modelBuilder.ApplyConfiguration(new Configuracion.testMap());
             modelBuilder.ApplyConfiguration(new Configuracion.OnlineShopMap1());
+             
         }
 
        
